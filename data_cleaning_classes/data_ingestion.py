@@ -1,8 +1,8 @@
 # Write a class for ingesting data from different types of files
 
-
 import pandas as pd
-
+import os
+from os.path import basename
 
 class Ingestion():
     def __init__(self, **kwargs):
@@ -13,8 +13,7 @@ class Ingestion():
         csv_kwargs = {key: getattr(self, key) for key in self.__dict__ if key !='file_path' and key != 'extension'}
         df = pd.read_csv(self.file_path, **csv_kwargs)
         return df
-        # print(f"This is running read_csv. The keyword argument used here is {self.header}")
-
+        
     def read_excel(self):
         excel_kwargs = {key: getattr(self, key) for key in self.__dict__ if key !='file_path' and key != 'extension'}
         df = pd.read_excel(self.file_path, **excel_kwargs)
@@ -52,7 +51,7 @@ class Ingestion():
 
     def function_to_use(self):
         ext_dict = {'.csv': self.read_csv,
-                '.xslx' : self.read_excel,
+                '.xlsx' : self.read_excel,
                 '.json': self.read_json,
                 '.parquet': self.read_parquet,
                 '.txt': self.read_text,
@@ -61,11 +60,24 @@ class Ingestion():
 
         return ext_dict[self.extension]
 
-path = '/Users/beloved683/Desktop/social_security_data/names/'
+path = '/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names/'
 
-file_name = 'yob1880.txt'
-test = Ingestion(file_path = path + file_name, extension ='.txt', header = 0)
+file_names = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
-test_df = test.function_to_use()()
+temp_df_list = []
 
-print(test_df.head(2))
+for file in file_names:
+    file_base, file_ext = os.path.splitext(file)
+    temp = Ingestion(file_path = path + file, extension = file_ext, header = 0, converters={'score':int})
+    temp_df = temp.function_to_use()()
+    temp_df_list.append(temp_df)
+col = temp_df_list[0].columns
+final_df = pd.concat([df.set_axis(col, axis=1) for df in temp_df_list], sort=False)
+    
+# test = Ingestion(file_path = path + file_name, extension ='.xlsx', header = 0, converters={'score':int})
+
+# test_df = test.function_to_use()()
+
+print(final_df.shape)
+
+# print(file_names)
