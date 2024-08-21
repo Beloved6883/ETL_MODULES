@@ -24,4 +24,4 @@ for file in file_names:
 col = temp_df_list[0].columns
 final_df = pd.concat([df.set_axis(col, axis=1) for df in temp_df_list], sort=False).sort_values(by='year', ignore_index=True, ascending=True).reset_index()
 
-final_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/test_names.csv', index=False)
+# final_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/test_names.csv', index=False)
