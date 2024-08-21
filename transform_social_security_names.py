@@ -19,10 +19,4 @@ for file in file_names:
 col = temp_df_list[0].columns
 final_df = pd.concat([df.set_axis(col, axis=1) for df in temp_df_list], sort=False)
     
-# test = Ingestion(file_path = path + file_name, extension ='.xlsx', header = 0, converters={'score':int})
-
-# test_df = test.function_to_use()()
-
 print(final_df.head(10))
-
-# print(file_names)
