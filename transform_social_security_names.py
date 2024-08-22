@@ -25,3 +25,32 @@ col = temp_df_list[0].columns
 final_df = pd.concat([df.set_axis(col, axis=1) for df in temp_df_list], sort=False).sort_values(by='year', ignore_index=True, ascending=True).reset_index()
 
 # final_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/test_names.csv', index=False)
+
+
+# Create ranks dataframes - by sex and by sex and year
+
+# Rank by sex
+sex_df = final_df.copy()
+grouped_sex_df = sex_df[['first_name', 'sex', 'frequency']].groupby(by=['first_name','sex']).sum().sort_values(by=['sex', 'frequency'], ascending=False).reset_index()
+
+names = grouped_sex_df['first_name']
+is_duplicate = grouped_sex_df[names.isin(names[names.duplicated()])].sort_values('first_name')
+
+# Top female name
+maxfreqF = grouped_sex_df[grouped_sex_df['sex'] == 'F']['frequency'].max()
+
+top_female = grouped_sex_df[grouped_sex_df['frequency'] == maxfreqF]
+
+print(top_female)
+
+# Top male name
+
+maxfreqM = grouped_sex_df[grouped_sex_df['sex'] == 'M']['frequency'].max()
+
+top_male = grouped_sex_df[grouped_sex_df['frequency'] == maxfreqM]
+
+print(top_male)
+
+# print(grouped_sex_df.head(10))
+
+# grouped_sex_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names_ranked_by_sex.csv', index=False)
