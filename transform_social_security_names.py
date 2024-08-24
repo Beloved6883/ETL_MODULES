@@ -61,4 +61,36 @@ print(top_male)
 
 # print(grouped_sex_df.head(10))
 
-grouped_sex_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names_ranked_by_sex.csv', index=False)
+# grouped_sex_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names_ranked_by_sex.csv', index=False)
+
+# Rank by sex and year
+
+
+year_sex_df = final_df.copy()
+grouped_year_sex_df = year_sex_df[['first_name', 'sex', 'year','frequency']].groupby(by=['first_name','sex','year']).sum().sort_values(by=['sex', 'year','frequency'], ascending=False).reset_index()
+
+year_sex_rank_df = (grouped_year_sex_df[['sex','year', 'frequency']].groupby(['sex','year'], as_index=True)['frequency'].rank(ascending=True, pct=True)*100).astype(int)
+
+grouped_year_sex_df['percent_rank'] = year_sex_rank_df
+
+# print(grouped_year_sex_df.head(10))
+
+# grouped_year_sex_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names_ranked_by_year_sex.csv', index = False)
+
+# Top female name
+maxrankyearF = grouped_year_sex_df[grouped_year_sex_df['sex'] == 'F']['percent_rank'].max()
+
+top_female = grouped_year_sex_df.loc[(grouped_year_sex_df['sex'] == 'F') & (grouped_year_sex_df['percent_rank'] == maxrankyearF)]
+
+print(top_female)
+
+# Top male name
+
+maxrankyearM = grouped_year_sex_df[grouped_year_sex_df['sex'] == 'M']['percent_rank'].max()
+
+top_male = grouped_year_sex_df.loc[(grouped_year_sex_df['sex'] =='M') & (grouped_year_sex_df['percent_rank'] == maxrankyearM)]
+
+print(top_male)
+
+# top_female.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/top_female_names_by_year_sex.csv', index=False)
+# top_male.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/top_male_names_by_year_sex.csv', index=False)
