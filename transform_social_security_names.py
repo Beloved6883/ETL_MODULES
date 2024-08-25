@@ -17,7 +17,7 @@ for file in file_names:
     match = re.search(r'\d{4}',file_base) 
     year = match.group()
     columns_names = ['first_name', 'sex', 'frequency']
-    temp = Ingestion(file_path = path + file, extension = file_ext, header = 0, converters={'score':int}, names=columns_names)
+    temp = Ingestion(file_path = path + file, extension = file_ext, header = 0, converters={'frequency':int}, names=columns_names)
     temp_df = temp.function_to_use()()
     temp_df['year'] = year
     temp_df_list.append(temp_df)
