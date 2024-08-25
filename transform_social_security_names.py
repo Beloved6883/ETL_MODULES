@@ -17,7 +17,7 @@ for file in file_names:
     match = re.search(r'\d{4}',file_base) 
     year = match.group()
     columns_names = ['first_name', 'sex', 'frequency']
-    temp = Ingestion(file_path = path + file, extension = file_ext, header = 0, converters={'frequency':int}, names=columns_names)
+    temp = Ingestion(file_path = path + file, extension = file_ext, header = None, converters={'frequency':int}, names=columns_names)
     temp_df = temp.function_to_use()()
     temp_df['year'] = year
     temp_df_list.append(temp_df)
@@ -61,7 +61,7 @@ print(top_male)
 
 # print(grouped_sex_df.head(10))
 
-# grouped_sex_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names_ranked_by_sex.csv', index=False)
+grouped_sex_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names_ranked_by_sex.csv', index=False)
 
 # Rank by sex and year
 
@@ -75,7 +75,7 @@ grouped_year_sex_df['percent_rank'] = year_sex_rank_df
 
 # print(grouped_year_sex_df.head(10))
 
-# grouped_year_sex_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names_ranked_by_year_sex.csv', index = False)
+grouped_year_sex_df.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/names_ranked_by_year_sex.csv', index = False)
 
 # Top female name
 maxrankyearF = grouped_year_sex_df[grouped_year_sex_df['sex'] == 'F']['percent_rank'].max()
@@ -92,5 +92,5 @@ top_male = grouped_year_sex_df.loc[(grouped_year_sex_df['sex'] =='M') & (grouped
 
 print(top_male)
 
-# top_female.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/top_female_names_by_year_sex.csv', index=False)
-# top_male.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/top_male_names_by_year_sex.csv', index=False)
+top_female.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/top_female_names_by_year_sex.csv', index=False)
+top_male.to_csv('/Users/beloved683/Desktop/Programming/ETL_MODULES/social_security_data/top_male_names_by_year_sex.csv', index=False)
