@@ -5,7 +5,7 @@ Creator: Natasha P. Wilson, PhD
 ETL_Modules
 
 Project structure
-
+```bash
 .
 ├── README.md (this current file, which provides information about this repository)
 ├── data_cleaning_classes (this directory contains classes for data ingestion and loading)
@@ -177,6 +177,6 @@ containing the first names, sex, and frequency of the name from the Social Secur
 ├── test_data (this directory contains any data used to test functionality of the classes or functions)
 │   └── test_excel.xlsx (a dummy data set for testing)
 └── transform_social_security_names.py (this Ptyhon file utilizes the data_ingestion module, Ingestion Class, to ingestion 144 files containing first name, gender, and frequency of the names from the Social Security Administration from the years 1880 - 2023. This is for a particular project.)
-
+```
 
 Contributions: This repository is not currently taking contributions since this is for personal use. If you are interested in contributing to this repository, reach out to Natasha at natasha@originsconvo.com with your proposed contribution. 
